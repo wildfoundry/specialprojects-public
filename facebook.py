@@ -3,13 +3,13 @@ import json
 import requests
 from rpi_leds import LED_COLOR as rpi_led_color
 
-SUBSCRIPTION_TOKEN = "tok_dp_fb_term"
+SUBSCRIPTION_TOKEN = ""
 
 MAX_MSG_LEN = 300
 
 GRAPH_API = "https://graph.facebook.com/v2.6/me/messages"
 
-ACCESS_TOKEN = "EAAI3ZCiMmzZAIBAJ4LrseOAolbNbj4pDQhWN0vnDyUkqrL6XQ1u9mdJlawLZA8uoBkJwcYRxDO2ggZARZBokGkWkrrzeVO8BRM5aWegVWnLbXHqVQtHzLuulu5wJxQZCGfKCdfkFiK220ZAr4Twc4qqrwo7dZAIm9lhO4XIPXrkxSICNZAlVvQgm0"
+ACCESS_TOKEN = ""
 
 
 class Facebook_messages():
