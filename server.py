@@ -2,16 +2,17 @@ from flask import Flask, request
 from terminal import Terminal
 import facebook
 import rpi_leds
+import datetime
 
 # Flask APP
 HOST = "0.0.0.0"
 PORT = 80
 
 # Dependencies
+time_now = datetime.datetime.now()
 term = Terminal()
 fb = facebook.Facebook_messages()
 app = Flask(__name__)
-
 
 @app.route('/', methods=['GET'])
 def subscription():
@@ -47,8 +48,19 @@ def webhook():
                     message_text = msg_event["message"]["text"]
 
                     # Help
-                    if message_text == "help":
-                        fb.simple_msg(sender_id, "1. To enter into terminal mode please send command \"term\"")
+                    if message_text == "help" and term.term_started == False:
+                        fb.simple_msg(sender_id, "1. To enter into terminal mode please send command \"term\" (To exit use \"exit\" when in term mode)")
+                        fb.simple_msg(sender_id, "2. To see current time on a Raspberry Pi please enter command \"time\"")
+                        fb.simple_msg(sender_id, "3. To see current date on a Raspberry Pi please enter command \"date\"")
+
+                    # Normal mode commands
+                    elif message_text == "date" and term.term_started == False:
+                        fb.simple_msg(sender_id, time_now.strftime("%d-%m-%Y"))
+                        pass
+
+                    elif message_text == "time" and term.term_started == False:
+                        fb.simple_msg(sender_id, time_now.strftime("%H:%M"))
+                        pass
 
                     # Terminal mode
                     elif message_text == "term" and term.term_started == False:
