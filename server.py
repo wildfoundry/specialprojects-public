@@ -1,7 +1,6 @@
 from flask import Flask, request
 from terminal import Terminal
 import facebook
-import rpi_leds
 import datetime
 import argparse
 
@@ -56,7 +55,11 @@ def webhook():
 
                 # Message event
                 if msg_event.get("message"):
-                    message_text = msg_event["message"]["text"]
+                    try:
+                        message_text = msg_event["message"]["text"]
+                    except:
+                        fb.simple_msg(sender_id, "Server Warning: Only messages containing text are valid.")
+                        return "ok", 200
 
                     # Help
                     if message_text == HELP and term.term_started == False:

@@ -17,8 +17,10 @@ class Terminal():
         self.proc = subprocess.Popen(["/bin/sh"],
                                      shell=False,
                                      stdin=subprocess.PIPE,
-                                     stdout=subprocess.PIPE)
+                                     stdout=subprocess.PIPE,
+                                     stderr=subprocess.PIPE)
         self.nbsr = NBSR(self.proc.stdout)
+        self.nbsr_err = NBSR(self.proc.stderr)
         self.term_started = True
 
     def execute_command(self, input_cmd):
@@ -26,9 +28,13 @@ class Terminal():
         Executes anything passed to /bin/sh
         """
         output_collector = []
+        err_collector = None
 
         # Format the command
-        args_list = shlex.split(input_cmd)
+        try:
+            args_list = shlex.split(input_cmd)
+        except:
+            args_list = ["echo","There was an error... your command was not executed..."]
         args_str = " ".join(i for i in args_list)
         args_str += "\n"
 
@@ -44,6 +50,12 @@ class Terminal():
         # Parse output
         while True:
             output = self.nbsr.readline(0.1)
+            err_collector = self.nbsr_err.readline(0.1)
+
+            if err_collector:
+                print("ERROR executing command: " + err_collector)
+                return err_collector
+
             if not output:
                 break
             output_collector.append(output)

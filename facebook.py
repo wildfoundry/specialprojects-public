@@ -1,7 +1,6 @@
 import sys
 import json
 import requests
-from rpi_leds import LED_COLOR as rpi_led_color
 
 SUBSCRIPTION_TOKEN = ""
 
@@ -42,12 +41,16 @@ class Facebook_messages():
             }
             })
 
-        print("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
+        try:
+            print("Sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
+        except:
+            print("Error printing the message. The server will try returning received message.")
 
         r = requests.post(GRAPH_API, params=params, headers=headers, data=data)
         if r.status_code != 200:
             print(r.status_code)
             print(r.text)
+
 
     def long_msg(self, recipient_id, message_text):
         """
