@@ -1,15 +1,19 @@
 #!/bin/sh
 
-INSTALL_URL="https://www.dataplicity.com/USER_ID.py | sudo python"
+ACCT_ID="EXAMPLE123"
+INSTALL_URL="https://www.dataplicity.com/$ACCT_ID.py | sudo python"
 LOG_FILE="/var/log/mass-install-dp.log"
 
+#Wait maximum 30 seconds on network connectivity before giving up
 limit=30
 retry=0
 
+#Don't bother to run when lo is configured
 if [ "$IFACE" = lo ]; then
     exit 0
 fi
 
+#Only run from ifup
 if [ "$MODE" != start ]; then
     exit 0
 fi
@@ -52,6 +56,6 @@ if [ ! -e /opt/dataplicity/tuxtunnel/auth ]; then
 
     /bin/sh -c "curl -k $INSTALL_URL" >> $LOG_FILE 2>&1
     
-    #Self destruction
+    #Self deletion (cleanup)
     /bin/sh -c "sudo rm /etc/network/if-up.d/mass-install-dp /opt/dataplicity/mass-install-hostname"
 fi
