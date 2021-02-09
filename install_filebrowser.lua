@@ -21,8 +21,7 @@ end
 
 
 function install_filebrowser()
-   os.execute('curl -fsSL https://filebrowser.xyz/get.sh | bash')
-   os.execute('filebrowser config set -p 80')
+   os.execute('curl -fsSL https://filebrowser.org/get.sh | bash')
 end
 
 
@@ -34,7 +33,7 @@ function generate_launcher()
     launcher = io.open(destination_dir, 'w')
     launcher:write([[
 #!/bin/sh
-filebrowser
+filebrowser -p 80
 ]])
     launcher:close()
 
