@@ -21,7 +21,7 @@ end
 
 
 function install_filebrowser()
-   os.execute('curl -fsSL https://filebrowser.org/get.sh | bash')
+   os.execute('curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash')
 end
 
 
