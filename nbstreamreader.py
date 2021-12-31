@@ -1,5 +1,10 @@
 from threading import Thread
-from Queue import Queue, Empty
+
+import sys
+if sys.version[0] == '2':
+    from Queue import Queue, Empty
+else:
+    from queue import Queue, Empty
 
 class NonBlockingStreamReader:
 
