@@ -49,12 +49,6 @@ then
         exit 1
 fi
 
-if netstat -pant | grep -q :80
-then
-        echo Dataplicity wormhole port 80 is currently busy running another service. Please deactivate it and try again.
-        exit 1
-fi
-
 $VNC/utils/launch.sh --vnc 127.0.0.1:5901 --listen 80
 """ > "$SERVER" && chmod +x "$SERVER"
 
@@ -65,6 +59,8 @@ Description=Remote Desktop
 [Service]
 Type=idle
 ExecStart=$SERVER
+Restart=always
+RestartSec=30
 
 [Install]
 WantedBy=multi-user.target
